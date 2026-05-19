@@ -1,0 +1,4 @@
+# chron job
+
+cron: daily 07:00  → run_daily.R   (~2 min, no LLM calls)
+cron: Monday 06:00 → run_weekly.R  (~5 min after first run, LLM only for new markets)
