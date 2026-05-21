@@ -142,3 +142,4 @@ refresh_market_prices <- function(market_ids) {
     result
   })
 }
+

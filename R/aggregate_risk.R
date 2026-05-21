@@ -40,7 +40,7 @@ library(stringr)
 #' @return Tibble ready for aggregate_country_risk()
 build_combined_df <- function(markets_df, evals_df) {
   markets_df |>
-    inner_join(evals_df, by = "market_id") |>
+    left_join(evals_df, by = "market_id") |>
     select(
       market_id,
       question,
@@ -64,7 +64,7 @@ aggregate_country_risk <- function(combined_df) {
   # ── 1. Filter to pharma-relevant, disruption-causing markets ───────────────
   pharma_df <- combined_df |>
     filter(
-      isTRUE(affects_pharma_supply),
+      affects_pharma_supply,
       disruption_level != "NO DISRUPTION",
       !is.na(source_countries),
       nchar(trimws(source_countries)) > 0,
@@ -119,14 +119,22 @@ aggregate_country_risk <- function(combined_df) {
       composite_risk      = sum(p * weight),
 
       # Human-readable: top driving events for each tier
-      top_large_events    = {
-        sub <- cur_data() |> filter(is_large) |> arrange(desc(p))
-        paste(head(sub$question, 3), collapse = " || ")
-      },
-      top_small_events    = {
-        sub <- cur_data() |> filter(is_small) |> arrange(desc(p))
-        paste(head(sub$question, 2), collapse = " || ")
-      },
+      top_large_events = if (any(is_large)) {
+    paste(
+      head(question[is_large][order(-p[is_large])], 3),
+      collapse = " || "
+    )
+  } else {
+    NA_character_
+  },
+      top_small_events = if (any(is_large)) {
+    paste(
+      head(question[is_small][order(-p[is_large])], 2),
+      collapse = " || "
+    )
+  } else {
+    NA_character_
+  },
 
       .groups = "drop"
     ) |>

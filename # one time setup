@@ -1,5 +1,6 @@
 # one time setup
 
 ollama pull mistral
+ollama pull ministral-3
 Rscript install_packages.R
 Rscript run_weekly.R

@@ -11,8 +11,29 @@
 #   4. Save risk_summary.rds + a timestamped CSV
 # =============================================================================
 
-setwd(dirname(rstudioapi::getActiveDocumentContext()$path) %||%
-        normalizePath("."))   # works from both RStudio and Rscript CLI
+get_script_dir <- function() {
+  # 1. RStudio
+  if (requireNamespace("rstudioapi", quietly = TRUE) &&
+      rstudioapi::isAvailable()) {
+    path <- rstudioapi::getActiveDocumentContext()$path
+    if (nzchar(path)) return(dirname(path))
+  }
+  # 2. this.path (Positron, VS Code, Rscript, source())
+  if (requireNamespace("this.path", quietly = TRUE)) {
+    try_path <- try(this.path::this.path(), silent = TRUE)
+    if (!inherits(try_path, "try-error")) return(dirname(try_path))
+  }
+  # 3. Rscript via commandArgs
+  args <- commandArgs(trailingOnly = FALSE)
+  file_arg <- grep("^--file=", args, value = TRUE)
+  if (length(file_arg)) {
+    return(dirname(sub("^--file=", "", file_arg)))
+  }
+  # 4. Fallback
+  getwd()
+}
+
+setwd(get_script_dir())
 
 source("config.R")
 source("R/fetch_polymarket.R")
@@ -54,7 +75,7 @@ run_weekly <- function() {
   combined_df <- build_combined_df(markets_df, evals_df)
 
   pharma_relevant <- combined_df |>
-    dplyr::filter(isTRUE(affects_pharma_supply))
+    dplyr::filter(affects_pharma_supply)
 
   message(sprintf(
     "\nEvaluated: %d markets | Pharma-relevant: %d | Large disruption: %d | Small: %d",

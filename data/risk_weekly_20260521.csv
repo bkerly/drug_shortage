@@ -1,0 +1,26 @@
+country,n_events,n_large,n_small,p_any_disruption,p_large_disruption,p_small_disruption,composite_risk,top_large_events,top_small_events,risk_tier
+China,8,1,7,0.9683,0.0335,0.9672,0.7619,Bab el-Mandeb Strait effectively closed by May 31?,Will the Republicans win the 2028 US Presidential Election?,LOW
+India,8,1,7,0.9683,0.0335,0.9672,0.7619,Bab el-Mandeb Strait effectively closed by May 31?,Will the Republicans win the 2028 US Presidential Election?,LOW
+Germany,7,1,6,0.9647,0.0335,0.9635,0.7316,Bab el-Mandeb Strait effectively closed by May 31?,Will the Republicans win the 2028 US Presidential Election?,LOW
+Singapore,4,1,3,0.9161,0.0335,0.9132,0.515,Bab el-Mandeb Strait effectively closed by May 31?,U.S. enacts AI safety bill before 2027?,LOW
+South Korea,5,1,4,0.867,0.0335,0.8623,0.4931,Bab el-Mandeb Strait effectively closed by May 31?,Will the Republicans win the 2028 US Presidential Election?,LOW
+Ireland,5,1,4,0.8372,0.0335,0.8316,0.443,Bab el-Mandeb Strait effectively closed by May 31?,Will the Republicans win the 2028 US Presidential Election?,LOW
+Japan,4,1,3,0.8221,0.0335,0.816,0.4175,Bab el-Mandeb Strait effectively closed by May 31?,Will the Republicans win the 2028 US Presidential Election?,LOW
+Belgium,4,1,3,0.8384,0.0335,0.8328,0.383,Bab el-Mandeb Strait effectively closed by May 31?,Will the 2026 trade deficit be between 900B and 1T?,LOW
+France,4,1,3,0.8384,0.0335,0.8328,0.383,Bab el-Mandeb Strait effectively closed by May 31?,Will the 2026 trade deficit be between 900B and 1T?,LOW
+Italy,4,1,3,0.8384,0.0335,0.8328,0.383,Bab el-Mandeb Strait effectively closed by May 31?,Will the 2026 trade deficit be between 900B and 1T?,LOW
+Netherlands,4,1,3,0.8384,0.0335,0.8328,0.383,Bab el-Mandeb Strait effectively closed by May 31?,Will the 2026 trade deficit be between 900B and 1T?,LOW
+Israel,3,1,2,0.7108,0.0335,0.7008,0.302,Bab el-Mandeb Strait effectively closed by May 31?,U.S. enacts AI safety bill before 2027?,LOW
+Switzerland,3,1,2,0.5799,0.0335,0.5654,0.2165,Bab el-Mandeb Strait effectively closed by May 31?,U.S. enacts AI safety bill before 2027?,LOW
+Australia,2,1,1,0.3911,0.0335,0.37,0.1445,Bab el-Mandeb Strait effectively closed by May 31?,Will the 2026 trade deficit be between 900B and 1T?,LOW
+Canada,2,1,1,0.3911,0.0335,0.37,0.1445,Bab el-Mandeb Strait effectively closed by May 31?,Will the 2026 trade deficit be between 900B and 1T?,LOW
+UK,2,1,1,0.3911,0.0335,0.37,0.1445,Bab el-Mandeb Strait effectively closed by May 31?,Will the 2026 trade deficit be between 900B and 1T?,LOW
+USA,4,0,4,0.8623,0,0.8623,0.4596,NA,NA,LOW
+Argentina,2,0,2,0.3275,0,0.3275,0.1059,NA,NA,LOW
+Brazil,2,0,2,0.3275,0,0.3275,0.1059,NA,NA,LOW
+Colombia,1,0,1,0.165,0,0.165,0.0495,NA,NA,LOW
+Ecuador,1,0,1,0.165,0,0.165,0.0495,NA,NA,LOW
+Mexico,1,0,1,0.165,0,0.165,0.0495,NA,NA,LOW
+Panama,1,0,1,0.165,0,0.165,0.0495,NA,NA,LOW
+Venezuela,1,0,1,0.165,0,0.165,0.0495,NA,NA,LOW
+United States,1,0,1,0.101,0,0.101,0.0303,NA,NA,LOW
