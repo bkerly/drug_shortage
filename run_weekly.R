@@ -71,6 +71,20 @@ run_weekly <- function() {
 
   evals_df <- evaluate_markets_with_cache(markets_df, EVAL_CACHE_FILE)
 
+  # ── Step 2b: Normalise cluster names (optional, controlled by config) ──────
+  if (isTRUE(RUN_CLUSTER_NORMALIZATION)) {
+    message("\nNormalising risk cluster names...")
+    evals_df <- tryCatch(
+      normalize_clusters(evals_df, markets_df, EVAL_CACHE_FILE),
+      error = function(e) {
+        message("  normalize_clusters failed: ", e$message, " — continuing with raw clusters.")
+        evals_df
+      }
+    )
+  } else {
+    message("Cluster normalisation skipped (RUN_CLUSTER_NORMALIZATION = FALSE).")
+  }
+
   # ── Step 3: Build combined dataframe ──────────────────────────────────────
   combined_df <- build_combined_df(markets_df, evals_df)
 
