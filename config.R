@@ -15,7 +15,7 @@ RISK_FILE           <- file.path(DATA_DIR, "risk_summary.rds")
 
 # --- Fetch settings ----------------------------------------------------------
 MARKETS_PER_PAGE    <- 100    # max per Gamma API page
-MAX_MARKETS         <- 300 #2000   # safety cap to avoid runaway pagination
+MAX_MARKETS         <- 2000   # safety cap to avoid runaway pagination
 API_SLEEP_SEC       <- 0.3    # polite delay between Polymarket calls
 
 # --- LLM settings ------------------------------------------------------------

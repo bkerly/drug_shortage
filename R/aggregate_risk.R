@@ -39,8 +39,19 @@ library(stringr)
 #' @param evals_df    Output of evaluate_markets_with_cache()
 #' @return Tibble ready for aggregate_country_risk()
 build_combined_df <- function(markets_df, evals_df) {
-  markets_df |>
-    left_join(evals_df, by = "market_id") |>
+  # Defensive deduplication: markets_df may repeat a condition_id if the
+  # Gamma API returned the same market on two pagination pages; evals_df may
+  # have accumulated duplicates across partial runs.
+  markets_clean <- markets_df |>
+    arrange(desc(fetched_at)) |>
+    distinct(market_id, .keep_all = TRUE)
+
+  evals_clean <- evals_df |>
+    arrange(desc(evaluated_at)) |>
+    distinct(market_id, .keep_all = TRUE)
+
+  markets_clean |>
+    left_join(evals_clean, by = "market_id", relationship = "many-to-one") |>
     select(
       market_id,
       question,
@@ -120,21 +131,12 @@ aggregate_country_risk <- function(combined_df) {
 
       # Human-readable: top driving events for each tier
       top_large_events = if (any(is_large)) {
-    paste(
-      head(question[is_large][order(-p[is_large])], 3),
-      collapse = " || "
-    )
-  } else {
-    NA_character_
-  },
-      top_small_events = if (any(is_large)) {
-    paste(
-      head(question[is_small][order(-p[is_large])], 2),
-      collapse = " || "
-    )
-  } else {
-    NA_character_
-  },
+        paste(head(question[is_large][order(-p[is_large])], 3), collapse = " || ")
+      } else NA_character_,
+
+      top_small_events = if (any(is_small)) {
+        paste(head(question[is_small][order(-p[is_small])], 2), collapse = " || ")
+      } else NA_character_,
 
       .groups = "drop"
     ) |>
@@ -177,7 +179,7 @@ print_risk_summary <- function(risk_df, n = 15) {
       r$p_any_disruption   * 100,
       r$composite_risk
     ))
-    if (nchar(r$top_large_events) > 0)
+    if (!is.na(r$top_large_events) && nchar(r$top_large_events) > 0)
       cat(sprintf("         ↳ %s\n", substr(r$top_large_events, 1, 90)))
   }
   cat("\n")

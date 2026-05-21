@@ -181,7 +181,13 @@ evaluate_market <- function(market_id, question, description, yes_prob) {
 #' @return Complete tibble of evaluations (cached + newly evaluated)
 evaluate_markets_with_cache <- function(markets_df,
                                         cache_file = EVAL_CACHE_FILE) {
-  cache <- if (file.exists(cache_file)) readRDS(cache_file) else tibble()
+  cache <- if (file.exists(cache_file)) {
+    readRDS(cache_file) |>
+      # Guard against duplicates left by previous partial runs:
+      # keep the most recent evaluation for each market_id
+      arrange(desc(evaluated_at)) |>
+      distinct(market_id, .keep_all = TRUE)
+  } else tibble()
 
   already_done <- if (nrow(cache) > 0) cache$market_id else character(0)
   to_do        <- markets_df |> filter(!market_id %in% already_done)
@@ -204,10 +210,11 @@ evaluate_markets_with_cache <- function(markets_df,
     result
   })
 
-  updated <- bind_rows(cache, new_evals)
+  updated <- bind_rows(cache, new_evals) |>
+    arrange(desc(evaluated_at)) |>
+    distinct(market_id, .keep_all = TRUE)
   saveRDS(updated, cache_file)
   message("Evaluation cache saved: ", nrow(updated), " total records → ", cache_file)
 
   updated
 }
-
